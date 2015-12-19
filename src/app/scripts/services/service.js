@@ -7,7 +7,7 @@
     */
 
     angular.module('fs-angular-modal')
-    .factory('fsModal', function () {
+    .factory('fsModal', function ($rootScope,$mdDialog) {
        var service = {
             show: show,
             hide: hide
