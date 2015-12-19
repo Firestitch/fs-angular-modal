@@ -21,54 +21,20 @@
     /**
      * @ngdoc interface
      * @name fs-angular-modal.services:fsModal
-     * @description
-     * 
-     */
+    */
 
     angular.module('fs-angular-modal')
     .factory('fsModal', function () {
        var service = {
             show: show,
-            hide: hide,
-            open: open,
-            close: hide
+            hide: hide
         };
 
         return service;
         
         /**
          * @ngdoc method
-         * @name format
-         * @methodOf fs-angular-modal.services:fsModal
-         * @description Legacy function and should be migrated to open() function
-         */        
-        function show(event, view, data) {
-            
-            return $mdDialog.show({
-                controller: function DialogController($scope, $mdDialog) {
-
-                    $scope.data = data;
-                    
-                    $scope.hide = function() {
-                        $mdDialog.hide();
-                    };
-                    $scope.cancel = function() {
-                        $mdDialog.cancel();
-                    };
-                    $scope.answer = function(answer) {
-                        $mdDialog.hide(answer);
-                    };
-                },
-                templateUrl: view,
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose:true
-            });
-        }
-
-        /**
-         * @ngdoc method
-         * @name format
+         * @name show
          * @methodOf fs-angular-modal.services:fsModal
          * @param {string} controller The controller to be used
          * @param {string} view Template URL to the view
@@ -76,7 +42,7 @@
          * @param {object=} options That are passed to $mdDialog.show() to allow for full modal customization.
          * @description Wraps $mdDialog.show() function 
          */
-        function open(controller, view, data, options) {
+        function show(controller, view, data, options) {
             
             options = options || {};
             
