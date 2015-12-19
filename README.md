@@ -1,1 +1,1 @@
-# fs-angular-modal
+http://firestitch.github.io/fs-angular-modal
