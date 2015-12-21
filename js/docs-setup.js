@@ -9,7 +9,7 @@ NG_DOCS={
       "shortName": "fsModal",
       "type": "interface",
       "moduleName": "fs-angular-modal",
-      "keywords": "$mddialog allow api controller customization data dirertly fs-angular-modal full function injected interface method modal namespace object objects options pass passed services template url view wraps"
+      "keywords": "$mddialog allow api controller customization fs-angular-modal full function interface method modal options passed services template url view wraps"
     }
   ],
   "apis": {
