@@ -1,21 +1,21 @@
 (function () {
-    'use strict';
-    
-	angular.module('fs-angular-modal',[]);
+    'use strict';
+    
+	angular.module('fs-angular-modal',[]);
 
 
-})();
-(function () {
-    'use strict';
+})();
+(function () {
+    'use strict';
 
 
-})();
-(function () {
-    'use strict';
+})();
+(function () {
+    'use strict';
 
 
-})();
-(function () {
+})();
+(function () {
     'use strict';
 
     /**
@@ -58,21 +58,22 @@
             return $mdDialog.show(options);
         }
 
-        function hide() {
-            return $mdDialog.hide();
+        function hide(resolve) {
+            return $mdDialog.hide(resolve);
         }
 
-        function cancel() {
-            return $mdDialog.cancel();
+        function cancel(resolve) {
+            return $mdDialog.cancel(resolve);
         }
     });
 })();
+
+angular.module('fs-angular-modal').run(['$templateCache', function($templateCache) {
+  'use strict';
+
+  $templateCache.put('views/directives/directive.html',
+    ""
+  );
+
+}]);
 
-angular.module('fs-angular-modal').run(['$templateCache', function($templateCache) {
-  'use strict';
-
-  $templateCache.put('views/directives/directive.html',
-    ""
-  );
-
-}]);
