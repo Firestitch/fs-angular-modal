@@ -41,12 +41,12 @@
             return $mdDialog.show(options);
         }
 
-        function hide() {
-            return $mdDialog.hide();
+        function hide(resolve) {
+            return $mdDialog.hide(resolve);
         }
 
-        function cancel() {
-            return $mdDialog.cancel();
+        function cancel(resolve) {
+            return $mdDialog.cancel(resolve);
         }
     });
 })();
