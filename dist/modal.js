@@ -8,7 +8,7 @@
      * @name fs-angular-modal.services:fsModal
     */
 
-    angular.module('fs-angular-modal')
+    angular.module('fs-angular-modal',[])
     .factory('fsModal', function ($rootScope,$mdDialog) {
        var service = {
             show: show,
