@@ -2,8 +2,13 @@
 
 
 angular.module('app')
-  .controller('DemoCtrl', function ($scope, DummyService) {
+  .controller('DemoCtrl', function ($scope, fsModal) {
 
-    $scope.date = new Date();
+    $scope.confirm = function() {
+    	fsModal.confirm({ 	content: 'Are you sure?',
+    						ok: function() {
+    							alert('ok!');
+    						}});
+    }
 });
 

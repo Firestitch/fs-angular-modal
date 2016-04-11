@@ -10,7 +10,8 @@
     .factory('fsModal', function ($rootScope,$mdDialog) {
        var service = {
             show: show,
-            hide: hide
+            hide: hide,
+            confirm: confirm
         };
 
         return service;
@@ -48,6 +49,70 @@
         function cancel(resolve) {
             return $mdDialog.cancel(resolve);
         }
+
+        function confirm(options) {
+
+            var confirm = { template: [
+                            '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="{{ dialog.css }}">',
+                            ' <md-dialog-content class="md-dialog-content" tabIndex="-1">',
+                            '   <h2 class="md-title">{{ dialog.title }}</h2>',
+                            '   {{dialog.mdTextContent}}',
+                            ' </md-dialog-content>',
+                            ' <md-dialog-actions>',
+                            '   <md-button ng-click="dialog.cancel($event)">',
+                            '     Cancel',
+                            '   </md-button>',
+                            '   <md-button ng-click="dialog.ok($event)" class="md-accent" md-autofocus="dialog.$type!=\'confirm\'">',
+                            '     Yes',
+                            '   </md-button>',
+                            ' </md-dialog-actions>',
+                            '</md-dialog>'
+                            ].join('').replace(/\s\s+/g, ''),
+                            controller: function () {
+                                this.ok = function() {
+
+                                    if(options.ok) {
+                                        var result = options.ok();
+
+                                        if(result && angular.isFunction(result.then)) {
+                                            result.then(function() {
+                                                $mdDialog.hide(true);
+                                            });
+                                        } else {
+                                            $mdDialog.hide(true);
+                                        }
+                                    } else {
+                                        $mdDialog.hide(true);
+                                    }                          
+                                };
+                                this.cancel = function($event) {
+
+                                    if(options.cancel) {
+                                        var result = options.cancel();
+
+                                        if(result && angular.isFunction(result.then)) {
+                                            result.then(function() {
+                                                $mdDialog.hide(false);
+                                            });
+                                        } else {
+                                            $mdDialog.hide(false);
+                                        }
+                                    } else {
+                                        $mdDialog.hide(false);
+                                    }
+                                };
+                            },
+                            preserveScope: true,
+                            controllerAs: 'dialog',
+                            bindToController: true,
+                            title: options.title || 'Confirm',
+                            content: options.content,
+                            ariaLabel: 'Confirm',
+                            skipHide: true };
+                
+            $mdDialog.show(confirm);
+
+        }        
     });
 })();
 
