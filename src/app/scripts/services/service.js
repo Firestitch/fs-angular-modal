@@ -1,4 +1,6 @@
-(function () {
+
+
+(function () {
     'use strict';
 
     /**
@@ -53,10 +55,10 @@
         function confirm(options) {
 
             var confirm = { template: [
-                            '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="{{ dialog.css }}">',
+                            '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="fs-modal-confirm {{ dialog.css }}">',
                             ' <md-dialog-content class="md-dialog-content" tabIndex="-1">',
                             '   <h2 class="md-title">{{ dialog.title }}</h2>',
-                            '   {{dialog.mdTextContent}}',
+                            '   {{dialog.mdTextContent || dialog.content}}',
                             ' </md-dialog-content>',
                             ' <md-dialog-actions>',
                             '   <md-button ng-click="dialog.cancel($event)">',
@@ -108,11 +110,15 @@
                             title: options.title || 'Confirm',
                             content: options.content,
                             ariaLabel: 'Confirm',
-                            skipHide: true };
+                            skipHide: true,
+                            onShowing: function($scope,container) {
+                                angular.element(container).addClass('fs-modal-confirm-container');
+                            }};
                 
             $mdDialog.show(confirm);
 
         }        
     });
 })();
+
 
