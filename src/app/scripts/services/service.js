@@ -10,11 +10,11 @@
 
     angular.module('fs-angular-modal',[])
     .factory('fsModal', function ($rootScope,$mdDialog) {
-       var service = {
+        var service = {
             show: show,
             hide: hide,
             confirm: confirm
-        };
+        }, modals = 0;
 
         return service;
         
@@ -53,6 +53,12 @@
         }
 
         function confirm(options) {
+
+            if(modals) {
+                return;
+            }
+               
+            modals++;
 
             var confirm = { template: [
                             '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="fs-modal-confirm {{ dialog.css }}">',
@@ -115,10 +121,10 @@
                                 angular.element(container).addClass('fs-modal-confirm-container');
                             }};
                 
-            $mdDialog.show(confirm);
-
-        }        
+            $mdDialog.show(confirm)
+            .then(function() {
+                modals--;
+            });
+        }
     });
 })();
-
-
