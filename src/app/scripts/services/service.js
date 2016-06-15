@@ -120,7 +120,7 @@
                             onShowing: function($scope,container) {
                                 angular.element(container).addClass('fs-modal-confirm-container');
                             }};
-                
+
             $mdDialog.show(confirm)
             .then(function() {
                 modals--;
