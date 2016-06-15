@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+    
     /**
      * @ngdoc interface
      * @name fs-angular-modal.services:fsModal
