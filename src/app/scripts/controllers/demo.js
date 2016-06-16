@@ -1,14 +1,44 @@
 'use strict';
 
 
-angular.module('app')
-  .controller('DemoCtrl', function ($scope, fsModal) {
 
-    $scope.confirm = function() {
-    	fsModal.confirm({ 	content: 'Are you sure?',
-    						ok: function() {
-    							alert('ok!');
-    						}});
-    }
-});
-
+angular.module('app')
+
+  .controller('DemoCtrl', function ($scope, fsModal, $q) {
+
+
+    $scope.confirm = function() {
+
+    	fsModal.confirm(
+            {
+                content: 'Are you sure?',
+                ok: function() {
+                    alert('ok!');
+
+                    return $q(function(resolve) {
+                        resolve('ok');
+                    });
+                },
+                cancel: function() {
+                    alert('cancel!');
+
+                    return $q(function(resolve) {
+                        resolve('cancel');
+                    });
+                }
+            }
+        )
+        .then(
+            // Ok clicked
+            function(value) {
+                console.log(value);
+            },
+            // Cancel clicked
+            function(reason) {
+                console.log(reason);
+            }
+        );
+    }
+
+});
+
