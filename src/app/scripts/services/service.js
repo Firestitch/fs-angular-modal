@@ -1,14 +1,13 @@
 (function () {
     'use strict';
 
-    
     /**
      * @ngdoc interface
      * @name fs-angular-modal.services:fsModal
     */
 
     angular.module('fs-angular-modal',[])
-    .factory('fsModal', function ($rootScope,$mdDialog) {
+    .factory('fsModal', function ($rootScope, $mdDialog, $q) {
         var service = {
             show: show,
             hide: hide,
@@ -59,6 +58,8 @@
                
             modals++;
 
+            var defer = $q.defer();
+
             var confirm = { template: [
                             '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="fs-modal-confirm {{ dialog.css }}">',
                             ' <md-dialog-content class="md-dialog-content" tabIndex="-1">',
@@ -76,37 +77,51 @@
                             '</md-dialog>'
                             ].join('').replace(/\s\s+/g, ''),
                             controller: function () {
+
                                 this.ok = function() {
+                                    var result = undefined;
 
-                                    if(options.ok) {
-                                        var result = options.ok();
+                                    if(options.ok)
+                                        result = options.ok();
 
-                                        if(result && angular.isFunction(result.then)) {
-                                            result.then(function() {
-                                                $mdDialog.hide(true);
-                                            });
-                                        } else {
-                                            $mdDialog.hide(true);
-                                        }
-                                    } else {
-                                        $mdDialog.hide(true);
-                                    }                          
+                                    $q(function(resolve) {
+                                        // resolve() accepts promises as well and recpects them.
+                                        resolve(result ? result : true);
+                                    })
+                                    .then(function(value) {
+                                        // hide() returns promise that is resolved when the dialog has been closed.
+                                        $mdDialog.hide(value).then(function() {
+                                            defer.resolve(value);
+                                        });
+                                    })
+                                    // in case if rejected promise was retured from options.ok()
+                                    .catch(function(reason) {
+                                        $mdDialog.hide(reason).then(function() {
+                                            defer.resolve(reason);
+                                        });
+                                    });
                                 };
+
                                 this.cancel = function($event) {
+                                    var result = undefined;
 
-                                    if(options.cancel) {
-                                        var result = options.cancel();
+                                    if(options.cancel)
+                                        result = options.cancel();
 
-                                        if(result && angular.isFunction(result.then)) {
-                                            result.then(function() {
-                                                $mdDialog.hide(false);
-                                            });
-                                        } else {
-                                            $mdDialog.hide(false);
-                                        }
-                                    } else {
-                                        $mdDialog.hide(false);
-                                    }
+                                    $q(function(resolve) {
+                                        resolve(result ? result : false);
+                                    })
+                                    .then(function(value) {
+                                        $mdDialog.hide(value).then(function() {
+                                            defer.reject(value);
+                                        });
+                                    })
+                                    // in case if rejected promise was retured from options.cancel()
+                                    .catch(function(reason) {
+                                        $mdDialog.hide(reason).then(function() {
+                                            defer.reject(reason);
+                                        });
+                                    });
                                 };
                             },
                             preserveScope: true,
@@ -120,10 +135,12 @@
                                 angular.element(container).addClass('fs-modal-confirm-container');
                             }};
 
-            $mdDialog.show(confirm)
-            .then(function() {
+            $mdDialog.show(confirm).then(function(result) {
                 modals--;
+                return result;
             });
+
+            return defer.promise;
         }
     });
 })();
