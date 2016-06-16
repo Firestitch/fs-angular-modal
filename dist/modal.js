@@ -96,7 +96,11 @@
                                             defer.resolve(value);
                                         });
                                     })
+                                    // in case if rejected promise was retured from options.ok()
                                     .catch(function(reason) {
+                                        $mdDialog.hide(reason).then(function() {
+                                            defer.resolve(reason);
+                                        });
                                     });
                                 };
 
@@ -114,7 +118,11 @@
                                             defer.reject(value);
                                         });
                                     })
+                                    // in case if rejected promise was retured from options.cancel()
                                     .catch(function(reason) {
+                                        $mdDialog.hide(reason).then(function() {
+                                            defer.reject(reason);
+                                        });
                                     });
                                 };
                             },
