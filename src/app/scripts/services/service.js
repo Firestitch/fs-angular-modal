@@ -66,12 +66,8 @@
                             '   {{dialog.mdTextContent || dialog.content}}',
                             ' </md-dialog-content>',
                             ' <md-dialog-actions>',
-                            '   <md-button ng-click="dialog.cancel($event)">',
-                            '     Cancel',
-                            '   </md-button>',
-                            '   <md-button ng-click="dialog.ok($event)" class="md-accent" md-autofocus="dialog.$type!=\'confirm\'">',
-                            '     Yes',
-                            '   </md-button>',
+                            '   <md-button ng-click="dialog.cancel($event)">{{dialog.cancelLabel}}</md-button>',
+                            '   <md-button ng-click="dialog.ok($event)" class="md-accent" md-autofocus="dialog.$type!=\'confirm\'">{{dialog.okLabel}}</md-button>',
                             ' </md-dialog-actions>',
                             '</md-dialog>'
                             ].join('').replace(/\s\s+/g, ''),
@@ -82,27 +78,27 @@
                                         var result = options.ok();
 
                                         if(result && angular.isFunction(result.then)) {
-                                            result.then(function() {
-                                                $mdDialog.hide(true);
+                                            result.then(function(result) {
+                                                $mdDialog.hide(result);
                                             });
                                         } else {
-                                            $mdDialog.hide(true);
+                                            $mdDialog.hide(result);
                                         }
                                     } else {
                                         $mdDialog.hide(true);
                                     }                          
                                 };
                                 this.cancel = function($event) {
-
+                                   
                                     if(options.cancel) {
                                         var result = options.cancel();
 
                                         if(result && angular.isFunction(result.then)) {
-                                            result.then(function() {
-                                                $mdDialog.hide(false);
+                                            result.then(function(result) {
+                                                $mdDialog.hide(result);
                                             });
                                         } else {
-                                            $mdDialog.hide(false);
+                                            $mdDialog.hide(result);
                                         }
                                     } else {
                                         $mdDialog.hide(false);
@@ -116,13 +112,18 @@
                             content: options.content,
                             ariaLabel: 'Confirm',
                             skipHide: true,
+                            locals: {
+                                okLabel: options.okLabel || 'Yes',
+                                cancelLabel: options.cancelLabel || 'Cancel'
+                            },
                             onShowing: function($scope,container) {
                                 angular.element(container).addClass('fs-modal-confirm-container');
                             }};
 
-            $mdDialog.show(confirm)
-            .then(function() {
+            return $mdDialog.show(confirm)
+            .then(function(value) {
                 modals--;
+                return value;
             });
         }
     });
