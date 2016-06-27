@@ -69,12 +69,8 @@
                             '   {{dialog.mdTextContent || dialog.content}}',
                             ' </md-dialog-content>',
                             ' <md-dialog-actions>',
-                            '   <md-button ng-click="dialog.cancel($event)">',
-                            '     Cancel',
-                            '   </md-button>',
-                            '   <md-button ng-click="dialog.ok($event)" class="md-accent" md-autofocus="dialog.$type!=\'confirm\'">',
-                            '     Yes',
-                            '   </md-button>',
+                            '   <md-button ng-click="dialog.cancel($event)">{{dialog.cancelLabel}}</md-button>',
+                            '   <md-button ng-click="dialog.ok($event)" class="md-accent" md-autofocus="dialog.$type!=\'confirm\'">{{dialog.okLabel}}</md-button>',
                             ' </md-dialog-actions>',
                             '</md-dialog>'
                             ].join('').replace(/\s\s+/g, ''),
@@ -133,6 +129,10 @@
                             content: options.content,
                             ariaLabel: 'Confirm',
                             skipHide: true,
+                            locals: {
+                                okLabel: options.okLabel || 'Yes',
+                                cancelLabel: options.cancelLabel || 'Cancel'
+                            },
                             onShowing: function($scope,container) {
                                 angular.element(container).addClass('fs-modal-confirm-container');
                             }};

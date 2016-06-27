@@ -12,6 +12,8 @@ angular.module('app')
     	fsModal.confirm(
             {
                 content: 'Are you sure?',
+                okLabel: 'Uhmmmm, ok',
+                cancelLabel: 'Ya cancel',
                 ok: function() {
                     alert('ok!');
 
