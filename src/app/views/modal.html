@@ -1,0 +1,25 @@
+<md-dialog aria-label="API Edit" flex="50">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Model Test</h2>
+        </div>
+    </md-toolbar>
+    <form ng-submit="save()">
+        <md-dialog-content layout-padding>
+
+
+        <md-input-container class="md-block">
+            <label>
+                Primary Email
+            </label>
+            <input type="text">
+        </md-input-container>
+
+        </md-dialog-content>
+        <md-dialog-actions layout="row" class="layout-row">
+            <md-button type="button" ng-click="cancel();">Cancel</md-button>
+            <md-button type="submit" class="md-accent">Save</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+

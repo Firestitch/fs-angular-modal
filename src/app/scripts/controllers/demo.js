@@ -9,7 +9,7 @@ angular.module('app')
 
     $scope.confirm = function() {
 
-    	fsModal.confirm(
+        fsModal.confirm(
             {
                 content: 'Are you sure?',
                 okLabel: 'Uhmmmm, ok',
@@ -40,6 +40,16 @@ angular.module('app')
                 console.log(reason);
             }
         );
+    }
+
+      $scope.modal = function() {
+
+        fsModal.show(
+            '',
+            'views/modal.html',
+            {
+
+            });
     }
 
 });
