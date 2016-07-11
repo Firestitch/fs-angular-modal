@@ -4,8 +4,8 @@
     'use strict';
 
     /**
-     * @ngdoc interface
-     * @name fs-angular-modal.services:fsModal
+     * @ngdoc service
+     * @name app.services:fsModal
     */
 
     angular.module('fs-angular-modal',[])
@@ -45,7 +45,7 @@
         /**
          * @ngdoc method
          * @name show
-         * @methodOf fs-angular-modal.services:fsModal
+         * @methodOf app.services:fsModal
          * @param {string} controller The controller to be used
          * @param {string} view Template URL to the view
          * @param {object=} options That are passed to $mdDialog.show() to allow for full modal customization.
