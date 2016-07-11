@@ -48,8 +48,19 @@ angular.module('app')
             '',
             'views/modal.html',
             {
-
-            });
+            	confirm: {
+            		message: "You have unsaved changes.",
+            		okLabel: "THAT'S OK, CONTINUE",
+            		cancelLabel: "TAKE ME BACK",
+            	}
+            }).then(function(value){
+            		//was saved
+	        	},
+	        	function(value){
+	        		//was cancelled
+	        	}
+	        );
+            ;
     }
 
 });

@@ -9,15 +9,39 @@
     */
 
     angular.module('fs-angular-modal',[])
-    .factory('fsModal', function ($rootScope, $mdDialog, $q) {
+    .factory('fsModal', function ($rootScope, $mdDialog, $q,$timeout) {
         var service = {
             show: show,
             hide: hide,
-            confirm: confirm
-        }, modals = 0;
+            confirm: confirm,
+            cancel: cancel
+        }, modals = 0,
+        modalOptions = {};
+
+		var oldcancel = $mdDialog.cancel;
+
+        $mdDialog.cancel = function (reason, options) {
+        	if(modalOptions.confirm && modalOptions.container.find('form').hasClass('ng-dirty')){
+		        service.confirm(
+		            {
+		                content: modalOptions.confirm.message ? modalOptions.confirm.message : "You have unsaved changes.",
+		                okLabel: modalOptions.confirm.okLabel ? modalOptions.confirm.okLabel : "THAT'S OK, CONTINUE",
+		                cancelLabel: modalOptions.confirm.cancelLabel ? modalOptions.confirm.cancelLabel : "TAKE ME BACK",
+		                ok: function() {
+		                  $timeout(function(){ oldcancel(reason, options); });
+		                },
+		                cancel: function() {
+		                }
+		            }
+		        );
+			    return false;
+        	}
+        	return oldcancel(reason, options);
+    	  }
+
 
         return service;
-        
+
         /**
          * @ngdoc method
          * @name show
@@ -25,21 +49,29 @@
          * @param {string} controller The controller to be used
          * @param {string} view Template URL to the view
          * @param {object=} options That are passed to $mdDialog.show() to allow for full modal customization.
-         * @description Wraps $mdDialog.show() function 
+         * @description Wraps $mdDialog.show() function
          */
         function show(controller, view, options) {
-            
+
             options = options || {};
-            
+
             var scope = $rootScope.$new(true);
             scope.hide = hide;
             scope.cancel = cancel;
-          
+
             options.controller = controller;
             options.templateUrl = view;
             options.scope = scope;
             options.parent = angular.element(document.body);
             options.clickOutsideToClose = options.clickOutsideToClose===undefined ? true : false;
+
+			options.onShowing = function($scope,container,options,d,e) {
+				modalOptions.container = container;
+			}
+
+            if(options.confirm) {
+            	modalOptions.confirm = options.confirm;
+            }
 
             return $mdDialog.show(options);
         }
@@ -57,7 +89,7 @@
             if(modals) {
                 return;
             }
-               
+
             modals++;
 
             var defer = $q.defer();
@@ -137,7 +169,7 @@
                                 angular.element(container).addClass('fs-modal-confirm-container');
                             }};
 
-            $mdDialog.show(confirm).then(function(result) {
+            $mdDialog.show(confirm).finally(function(result) {
                 modals--;
                 return result;
             });

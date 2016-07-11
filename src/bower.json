@@ -1,13 +1,13 @@
 {
   "name": "fs-angular-modal",
   "namespace": "modal",
-  "port": "5011",   
+  "port": "5011",
   "moduleName": "app",
   "version": "0.0.0",
   "appPath": "app",
   "dependencies": {
     "angular": "1.5.0",
-    "angular-material": "1.0.5",
+    "angular-material": "1.0.9",
     "angular-ui-router": "0.2.15"
   },
   "devDependencies": {
