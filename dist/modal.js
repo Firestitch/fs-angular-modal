@@ -8,6 +8,7 @@
      * @name app.services:fsModal
     */
 
+
     angular.module('fs-angular-modal',[])
     .factory('fsModal', function ($rootScope, $mdDialog, $q,$timeout) {
         var service = {
@@ -48,9 +49,15 @@
          * @methodOf app.services:fsModal
          * @param {string} controller The controller to be used
          * @param {string} view Template URL to the view
-         * @param {object=} options That are passed to $mdDialog.show() to allow for full modal customization.
+         * @param {object} options That are passed to $mdDialog.show() to allow for full modal customization.
+
+         * @param {object} options.confirm options.confirm
+         * @param {string} options.message options.message
+         * @param {string} options.okLabel options.okLabel
+         * @param {string} options.cancelLabel options.cancelLabel
          * @description Wraps $mdDialog.show() function
          */
+
         function show(controller, view, options) {
 
             options = options || {};
@@ -76,14 +83,32 @@
             return $mdDialog.show(options);
         }
 
+        /**
+         * @ngdoc method
+         * @name hide
+         * @methodOf app.services:fsModal
+         * @param {object} resolve description
+         */
         function hide(resolve) {
             return $mdDialog.hide(resolve);
         }
 
+        /**
+         * @ngdoc method
+         * @name cancel
+         * @methodOf app.services:fsModal
+         * @param {object} resolve description
+         */
         function cancel(resolve) {
             return $mdDialog.cancel(resolve);
         }
 
+        /**
+         * @ngdoc method
+         * @name confirm
+         * @methodOf app.services:fsModal
+         * @param {object} options description
+         */
         function confirm(options) {
 
             if(modals) {
