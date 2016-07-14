@@ -69,7 +69,16 @@
 					cancelLabel: 'Dont Save Stuff',
 				}
 			}
-		});
+		}).then(
+			function(){
+				//dialog was closed but not cancelled (.hide() was called, probally by save button)
+				console.log('save stuff');
+			},
+			function(){
+				//dialog was cancelled
+				console.log('dont save stuff');
+			}
+		);
 		 * </pre>
          */
 
