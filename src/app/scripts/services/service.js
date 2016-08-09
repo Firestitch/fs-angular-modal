@@ -45,15 +45,39 @@
          * @ngdoc method
          * @name show
          * @methodOf services.fsModal
+         * @description Wraps $mdDialog.show() function
          * @param {string} controller The controller to be used
          * @param {string} view Template URL to the view
          * @param {object} options That are passed to $mdDialog.show() to allow for full modal customization.
-
-         * @param {object} options.confirm options.confirm
-         * @param {string} options.message options.message
-         * @param {string} options.okLabel options.okLabel
-         * @param {string} options.cancelLabel options.cancelLabel
-         * @description Wraps $mdDialog.show() function
+         * @param {boolean} [options.clickOutsideToClose=true] close if click happens outside popup
+         * @param {object} options.confirm options to show confirm dialog before cancelling an unsaved form
+         * @param {string} [options.confirm.message='You have unsaved changes.'] confirm dialog message
+         * @param {string} [options.confirm.okLabel='THAT'S OK, CONTINUE'] confirm dialog ok button label
+         * @param {string} [options.confirm.cancelLabel='TAKE ME BACK'] confirm dialog cancel button label
+		 * @example
+		 * <pre>
+		fsModal.show(
+			'ExampleController',
+			'views/modal/example.html',
+			{
+				clickOutsideToClose: true,
+				confirm: {
+					message: 'Do you want to save stuff?',
+					okLabel: 'Save Stuff',
+					cancelLabel: 'Dont Save Stuff',
+				}
+			}
+		}).then(
+			function(){
+				//dialog was closed but not cancelled (.hide() was called, probally by save button)
+				console.log('save stuff');
+			},
+			function(){
+				//dialog was cancelled
+				console.log('dont save stuff');
+			}
+		);
+		 * </pre>
          */
 
         function show(controller, view, options) {
@@ -86,6 +110,7 @@
          * @name hide
          * @methodOf services.fsModal
          * @param {object} resolve description
+         * @description Wraps $mdDialog.hide() function
          */
         function hide(resolve) {
             return $mdDialog.hide(resolve);
@@ -96,6 +121,7 @@
          * @name cancel
          * @methodOf services.fsModal
          * @param {object} resolve description
+         * @description Wraps $mdDialog.cancel() function
          */
         function cancel(resolve) {
             return $mdDialog.cancel(resolve);
@@ -105,7 +131,25 @@
          * @ngdoc method
          * @name confirm
          * @methodOf services.fsModal
-         * @param {object} options description
+		 * @description show a confirm dialog
+         * @param {object} options options object
+         * @param {string} options.content confirm dialog message
+         * @param {string} [options.title='Confirm'] title
+         * @param {string} [options.okLabel='Yes'] ok button label
+         * @param {string} [options.cancelLabel='Cancel'] cancel button label
+         * @param {function} options.ok callback function run when ok button pressed
+         * @param {function} options.cancel callback function run when cancel button pressed
+		 * @example
+		 * <pre>
+		fsModal.confirm({
+			title: 'Save?',
+			content: 'Do you want to save stuff?',
+			okLabel: 'Save Stuff',
+			cancelLabel: 'Dont Save Stuff',
+			ok: function() { console.log('saving stuff'); },
+			cancel: function() { console.log('not saving stuff'); }
+		});
+		 * </pre>
          */
         function confirm(options) {
 
