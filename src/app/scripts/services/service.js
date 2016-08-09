@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc service
-     * @name app.services:fsModal
+     * @name services.fsModal
     */
 
 
@@ -44,7 +44,7 @@
         /**
          * @ngdoc method
          * @name show
-         * @methodOf app.services:fsModal
+         * @methodOf services.fsModal
          * @param {string} controller The controller to be used
          * @param {string} view Template URL to the view
          * @param {object} options That are passed to $mdDialog.show() to allow for full modal customization.
@@ -84,7 +84,7 @@
         /**
          * @ngdoc method
          * @name hide
-         * @methodOf app.services:fsModal
+         * @methodOf services.fsModal
          * @param {object} resolve description
          */
         function hide(resolve) {
@@ -94,7 +94,7 @@
         /**
          * @ngdoc method
          * @name cancel
-         * @methodOf app.services:fsModal
+         * @methodOf services.fsModal
          * @param {object} resolve description
          */
         function cancel(resolve) {
@@ -104,7 +104,7 @@
         /**
          * @ngdoc method
          * @name confirm
-         * @methodOf app.services:fsModal
+         * @methodOf services.fsModal
          * @param {object} options description
          */
         function confirm(options) {
