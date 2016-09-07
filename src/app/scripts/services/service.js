@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc service
-     * @name services.fsModal
+     * @name fs.fsModal
     */
 
 
@@ -44,7 +44,7 @@
         /**
          * @ngdoc method
          * @name show
-         * @methodOf services.fsModal
+         * @methodOf fs.fsModal
          * @description Wraps $mdDialog.show() function
          * @param {string} controller The controller to be used
          * @param {string} view Template URL to the view
@@ -108,7 +108,7 @@
         /**
          * @ngdoc method
          * @name hide
-         * @methodOf services.fsModal
+         * @methodOf fs.fsModal
          * @param {object} resolve description
          * @description Wraps $mdDialog.hide() function
          */
@@ -119,7 +119,7 @@
         /**
          * @ngdoc method
          * @name cancel
-         * @methodOf services.fsModal
+         * @methodOf fs.fsModal
          * @param {object} resolve description
          * @description Wraps $mdDialog.cancel() function
          */
@@ -130,7 +130,7 @@
         /**
          * @ngdoc method
          * @name confirm
-         * @methodOf services.fsModal
+         * @methodOf fs.fsModal
 		 * @description show a confirm dialog
          * @param {object} options options object
          * @param {string} options.content confirm dialog message
