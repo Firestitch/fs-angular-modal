@@ -227,6 +227,7 @@
                             title: options.title || 'Confirm',
                             content: options.content,
                             ariaLabel: 'Confirm',
+                            focusOnOpen: options.focusOnOpen!==false,
                             skipHide: true,
                             locals: {
                                 okLabel: options.okLabel || 'Yes',
