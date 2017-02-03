@@ -191,13 +191,13 @@
                             .then(function(value) {
                                 // hide() returns promise that is resolved when the dialog has been closed.
                                 $mdDialog.hide(value).then(function() {
-                                    defer.resolve(value);
+                                    resolve(value);
                                 });
                             })
                             // in case if rejected promise was retured from options.ok()
                             .catch(function(reason) {
                                 $mdDialog.hide(reason).then(function() {
-                                    defer.resolve(reason);
+                                    resolve(reason);
                                 });
                             });
                         };
