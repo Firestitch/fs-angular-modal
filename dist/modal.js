@@ -15,7 +15,6 @@
             show: show,
             hide: hide,
             confirm: confirm,
-            info: info,
             cancel: cancel
         }, modals = 0,
         modalOptions = {};
@@ -156,7 +155,7 @@
          */
         function confirm(options) {
 
-            $q(function(resolve,reject) {
+            return $q(function(resolve,reject) {
 
             	if(modals) {
 	                return reject();
@@ -248,100 +247,6 @@
 	                modals--;
 	                return result;
 	            });
-
-            });
-        }
-
-
-        /**
-         * @ngdoc method
-         * @name info
-         * @methodOf fs.fsModal
-		 * @description show a confirm dialog
-         * @param {object} options options object
-         * @param {string} options.content dialog message
-         * @param {string} [options.title='Info'] title
-         * @param {string} [options.okLabel='Yes'] ok button label
-         * @param {function} options.ok callback function run when ok button pressed
-		 * @example
-		 * <pre>
-		fsModal.info({
-			title: 'Important Information',
-			content: 'The crow flies at midnight.',
-			okLabel: 'OK',
-			ok: function() { console.log('notice served.'); },
-		});
-		 * </pre>
-         */
-        function info(options) {
-
-            $q(function(resolve,reject) {
-
-            	if(modals) {
-	                return reject();
-	            }
-
-	            modals++;
-
-           		var confirm = {
-           			template: [
-	                    '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="fs-modal-confirm {{ dialog.css }}">',
-	                    ' <md-dialog-content class="md-dialog-content" tabIndex="-1">',
-	                    '   <h2 class="md-title">{{ dialog.title }}</h2>',
-	                    '   {{dialog.mdTextContent || dialog.content}}',
-	                    ' </md-dialog-content>',
-	                    ' <md-dialog-actions>',
-	                    '   <md-button ng-click="dialog.ok($event)" class="md-accent" md-autofocus="dialog.$type!=\'confirm\'">{{dialog.okLabel}}</md-button>',
-	                    ' </md-dialog-actions>',
-	                    '</md-dialog>'
-	                    ].join(''),
-                    controller: function() {
-
-                        this.ok = function() {
-                            var result = undefined;
-
-                            if(options.ok)
-                                result = options.ok();
-
-                            $q(function(resolve) {
-                                // resolve() accepts promises as well and recpects them.
-                                resolve(result ? result : true);
-                            })
-                            .then(function(value) {
-                                // hide() returns promise that is resolved when the dialog has been closed.
-                                $mdDialog.hide(value).then(function() {
-                                    resolve(value);
-                                });
-                            })
-                            // in case if rejected promise was retured from options.ok()
-                            .catch(function(reason) {
-                                $mdDialog.hide(reason).then(function() {
-                                    resolve(reason);
-                                });
-                            });
-                        };
-                    },
-                    preserveScope: true,
-                    controllerAs: 'dialog',
-                    bindToController: true,
-                    title: options.title || 'Info',
-                    content: options.content,
-                    ariaLabel: 'OK',
-                    focusOnOpen: false,
-                    skipHide: true,
-                    locals: {
-                        okLabel: options.okLabel || 'OK'
-                    },
-                    onShowing: function($scope,container) {
-                        angular.element(container).addClass('fs-modal-confirm-container');
-                    }
-                };
-
-	            $mdDialog.show(confirm).finally(function(result) {
-	                modals--;
-	                return result;
-	            });
-
             });
         }
     });

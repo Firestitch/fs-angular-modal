@@ -42,33 +42,7 @@ angular.module('app')
         );
     }
 
-
-
-    $scope.info = function() {
-
-        fsModal.info(
-            {
-            	title: 'Important Information',
-                content: 'The crow flies at midnight.',
-                okLabel: 'Uhmmmm, ok',
-                ok: function() {
-                    alert('ok!');
-
-                    return $q(function(resolve) {
-                        resolve('ok');
-                    });
-                },
-            }
-        )
-        .then(
-            // Ok clicked
-            function(value) {
-                console.log(value);
-            }
-        );
-    }
-
-      $scope.modal = function() {
+    $scope.modal = function() {
 
         fsModal.show(
             '',
