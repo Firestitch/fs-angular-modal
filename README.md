@@ -1,1 +1,1 @@
-http://firestitch.github.io/fs-angular-modal
+Demo http://boilerplate.firestitch.com/patterns/modalbasic
