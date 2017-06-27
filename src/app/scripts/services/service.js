@@ -262,6 +262,7 @@
 		 * @description show a prompt dialog
          * @param {object} options options object
          * @param {string} options.label Label to the interface
+         * @param {string} options.hint Interface hint
          * @example
          */
         function prompt(options) {
@@ -269,7 +270,7 @@
         	return confirm(angular.merge({
         		okLabel: 'OK',
         		title: '',
-        		content: '<md-input-container class="md-block md-no-message"><label>{{dialog.options.label}}</label><input type="text" ng-model="value"></md-input-container>',
+        		content: '<md-input-container class="md-block md-no-message"><label>{{dialog.options.label}}</label><input type="text" ng-model="value"><div class="hint">{{dialog.options.hint}}</md-input-container>',
         		ok: function($event, $scope) {
         			return $scope.value
         		}

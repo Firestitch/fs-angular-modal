@@ -69,7 +69,8 @@ angular.module('app')
         fsModal
         .prompt({
         	label: 'Please enter the email addresses',
-        	minWidth: '500px'
+        	minWidth: '500px',
+        	hint: 'hint text'
         })
         .then(function(value) {
         	debugger;
