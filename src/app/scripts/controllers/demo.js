@@ -63,5 +63,23 @@ angular.module('app')
             ;
     }
 
+
+    $scope.prompt = function() {
+
+        fsModal
+        .prompt({
+        	label: 'Please enter the email addresses',
+        	minWidth: '500px'
+        })
+        .then(function(value) {
+        	debugger;
+    		//was saved
+    	},
+    	function(value){
+    		debugger;
+    		//was cancelled
+    	});
+    }
+
 });
 

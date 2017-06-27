@@ -13,7 +13,8 @@
             show: show,
             hide: hide,
             confirm: confirm,
-            cancel: cancel
+            cancel: cancel,
+            prompt: prompt
         }, modals = 0,
         modalOptions = {};
 
@@ -134,6 +135,7 @@
 		 * @description show a confirm dialog
          * @param {object} options options object
          * @param {string} options.content confirm dialog message
+         * @param {string} options.minWidth The min width for the modal
          * @param {string} [options.title='Confirm'] title
          * @param {string} [options.okLabel='Yes'] ok button label
          * @param {string} [options.cancelLabel='Cancel'] cancel button label
@@ -153,6 +155,8 @@
          */
         function confirm(options) {
 
+        	options.title = options.title===undefined ? 'Confirm' : '';
+
             return $q(function(resolve,reject) {
 
             	if(modals) {
@@ -163,10 +167,10 @@
 
            		var confirm = {
            			template: [
-	                    '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="fs-modal-confirm {{ dialog.css }}">',
-	                    ' <md-dialog-content class="md-dialog-content" tabIndex="-1">',
-	                    '   <h2 class="md-title">{{ dialog.title }}</h2>',
-	                    '   {{dialog.mdTextContent || dialog.content}}',
+	                    '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="fs-modal-confirm {{ dialog.css }}" ng-style="dialog.style">',
+	                    ' <md-dialog-content tabIndex="-1" class="md-dialog-content">',
+	                    '   <h2 class="md-title" ng-if="dialog.options.title">{{ dialog.options.title }}</h2>',
+	                    '   <div>' + options.content + '</div>',
 	                    ' </md-dialog-content>',
 	                    ' <md-dialog-actions>',
 	                    '   <md-button ng-click="dialog.cancel($event)">{{dialog.cancelLabel}}</md-button>',
@@ -174,17 +178,21 @@
 	                    ' </md-dialog-actions>',
 	                    '</md-dialog>'
 	                    ].join(''),
-                    controller: function() {
+                    controller: ['$scope',function($scope) {
 
-                        this.ok = function() {
+                    	this.style = {};
+                    	if(options.minWidth)
+                    		this.style.minWidth = options.minWidth;
+
+                        this.ok = function($event) {
+
                             var result = undefined;
-
                             if(options.ok)
-                                result = options.ok();
+                                result = options.ok($event,$scope);
 
                             $q(function(resolve) {
                                 // resolve() accepts promises as well and recpects them.
-                                resolve(result ? result : true);
+                                resolve(result);
                             })
                             .then(function(value) {
                                 // hide() returns promise that is resolved when the dialog has been closed.
@@ -206,7 +214,7 @@
                             	var result = undefined;
 
                                 if(options.cancel) {
-                                    result = options.cancel();
+                                    result = options.cancel($event,$scope);
                                 }
 
                                 if(angular.isObject(result) && result.then) {
@@ -223,12 +231,11 @@
                                 });
                             })
                         }
-                    },
+                    }],
                     preserveScope: true,
                     controllerAs: 'dialog',
                     bindToController: true,
-                    title: options.title || 'Confirm',
-                    content: options.content,
+                    options: options,
                     ariaLabel: 'Confirm',
                     focusOnOpen: false,
                     skipHide: true,
@@ -246,6 +253,29 @@
 	                return result;
 	            });
             });
+        }
+
+		/**
+         * @ngdoc method
+         * @name prompt
+         * @methodOf fs.fsModal
+		 * @description show a prompt dialog
+         * @param {object} options options object
+         * @param {string} options.label Label to the interface
+         * @example
+         */
+        function prompt(options) {
+
+        	return confirm(angular.merge({
+        		okLabel: 'OK',
+        		title: '',
+        		content: '<md-input-container class="md-block md-no-message"><label>{{dialog.options.label}}</label><input type="text" ng-model="value"></md-input-container>',
+        		ok: function($event, $scope) {
+        			return $scope.value
+        		}
+        	},options));
+
+
         }
     });
 })();
