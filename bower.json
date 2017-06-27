@@ -2,7 +2,8 @@
   "name": "fs-angular-modal",
   "description": "",
   "main": [
-    "dist/modal.js"
+    "dist/modal.js",
+    "dist/modal.css"
   ],
   "authors": [
     "Firestitch Inc."

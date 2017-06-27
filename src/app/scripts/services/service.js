@@ -136,6 +136,7 @@
          * @param {object} options options object
          * @param {string} options.content confirm dialog message
          * @param {string} options.width The width for the modal
+         * @param {string} options.class The css class to apply to md-dialog
          * @param {string} [options.title='Confirm'] title
          * @param {string} [options.okLabel='Yes'] ok button label
          * @param {string} [options.cancelLabel='Cancel'] cancel button label
@@ -155,7 +156,8 @@
          */
         function confirm(options) {
 
-        	options.title = options.title===undefined ? 'Confirm' : '';
+        	options.title = options.title===undefined ? 'Confirm' : options.title;
+        	options.class = options.class===undefined ? 'fs-modal-confirm' : options.class;
 
             return $q(function(resolve,reject) {
 
@@ -167,7 +169,7 @@
 
            		var confirm = {
            			template: [
-	                    '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="fs-modal-confirm {{ dialog.css }}" ng-style="dialog.style">',
+	                    '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="{{ dialog.options.class }}" ng-style="dialog.style">',
 	                    ' <md-dialog-content tabIndex="-1" class="md-dialog-content">',
 	                    '   <h2 class="md-title" ng-if="dialog.options.title">{{ dialog.options.title }}</h2>',
 	                    '   <div>' + options.content + '</div>',
@@ -270,7 +272,8 @@
         	return confirm(angular.merge({
         		okLabel: 'OK',
         		title: '',
-        		content: '<md-input-container class="md-block md-no-message"><label>{{dialog.options.label}}</label><input type="text" ng-model="value"><div class="hint">{{dialog.options.hint}}</div></md-input-container>',
+        		class: (options.class || '') + ' fs-modal-prompt',
+        		content: '<md-input-container class="md-block"><label>{{dialog.options.label}}</label><input type="text" ng-model="value"><div class="hint">{{dialog.options.hint}}</div></md-input-container>',
         		ok: function($event, $scope) {
         			return $scope.value
         		}

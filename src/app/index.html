@@ -16,12 +16,14 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <link rel="stylesheet" href="styles/directives/modal.css">
   </head>
   <body ng-controller="BodyCtrl" class="ng-cloak">
 
     <!-- View Container for "normal" pages -->
     <md-content layout="row" layout-align="center center">
-        <div flex="50">  
+        <div flex="50">
             <h1 ng-cloak>Demo {{app_name}}</h1>
             <div ui-view></div>
         </div>
@@ -46,20 +48,20 @@
     <script src="scripts/modules/module.js"></script>
 
     <script src="scripts/directives/directive.js"></script>
-    
+
     <script src="scripts/filters/filter.js"></script>
-    
+
     <script src="scripts/services/service.js"></script>
-    <script src="scripts/services/alert.js"></script>    
+    <script src="scripts/services/alert.js"></script>
     <script src="scripts/services/api.js"></script>
     <script src="scripts/services/store.js"></script>
     <script src="scripts/services/session.js"></script>
     <script src="scripts/services/config.js"></script>
     <script src="scripts/services/dummy.js"></script>
-    
+
     <script src="scripts/controllers/demo.js"></script>
     <script src="scripts/controllers/body.js"></script>
-    
+
     <!-- endbuild -->
 </body>
 </html>
