@@ -137,7 +137,7 @@
 		 * @description show a confirm dialog
          * @param {object} options options object
          * @param {string} options.content confirm dialog message
-         * @param {string} options.minWidth The min width for the modal
+         * @param {string} options.width The width for the modal
          * @param {string} [options.title='Confirm'] title
          * @param {string} [options.okLabel='Yes'] ok button label
          * @param {string} [options.cancelLabel='Cancel'] cancel button label
@@ -182,9 +182,9 @@
 	                    ].join(''),
                     controller: ['$scope',function($scope) {
 
-                    	this.style = {};
-                    	if(options.minWidth)
-                    		this.style.minWidth = options.minWidth;
+                    	this.style = { maxWidth: '100%' };
+                    	if(options.width)
+                    		this.style.width = options.width;
 
                         this.ok = function($event) {
 
