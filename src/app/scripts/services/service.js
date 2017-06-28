@@ -7,7 +7,7 @@
     */
 
 
-    angular.module('fs-angular-modal',[])
+    angular.module('fs-angular-modal',['fs-angular-element'])
     .factory('fsModal', function ($rootScope, $mdDialog, $q,$timeout) {
         var service = {
             show: show,
@@ -156,8 +156,9 @@
          */
         function confirm(options) {
 
-        	options.title = options.title===undefined ? 'Confirm' : options.title;
-        	options.class = options.class===undefined ? 'fs-modal-confirm' : options.class;
+        	options.title 		= options.title===undefined ? 'Confirm' : options.title;
+        	options.class 		= options.class===undefined ? 'fs-modal-confirm' : options.class;
+        	options.focusOnOpen = options.focusOnOpen===undefined ? true : options.focusOnOpen;
 
             return $q(function(resolve,reject) {
 
@@ -170,14 +171,16 @@
            		var confirm = {
            			template: [
 	                    '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="{{ dialog.options.class }}" ng-style="dialog.style">',
-	                    ' <md-dialog-content tabIndex="-1" class="md-dialog-content">',
+	                    ' <form ng-submit="dialog.ok($event)">',
+	                    '  <md-dialog-content tabIndex="-1" class="md-dialog-content">',
 	                    '   <h2 class="md-title" ng-if="dialog.options.title">{{ dialog.options.title }}</h2>',
-	                    '   <div>' + options.content + '</div>',
-	                    ' </md-dialog-content>',
-	                    ' <md-dialog-actions>',
+	                        options.content,
+	                    '  </md-dialog-content>',
+	                    '  <md-dialog-actions>',
 	                    '   <md-button ng-click="dialog.cancel($event)">{{dialog.cancelLabel}}</md-button>',
-	                    '   <md-button ng-click="dialog.ok($event)" class="md-accent" md-autofocus="dialog.$type!=\'confirm\'">{{dialog.okLabel}}</md-button>',
-	                    ' </md-dialog-actions>',
+	                    '   <md-button class="md-accent" type="submit">{{dialog.okLabel}}</md-button>',
+	                    '  </md-dialog-actions>',
+	                    ' </form>',
 	                    '</md-dialog>'
 	                    ].join(''),
                     controller: ['$scope',function($scope) {
@@ -239,7 +242,7 @@
                     bindToController: true,
                     options: options,
                     ariaLabel: 'Confirm',
-                    focusOnOpen: false,
+                    focusOnOpen: options.focusOnOpen,
                     skipHide: true,
                     locals: {
                         okLabel: options.okLabel || 'Yes',
@@ -272,8 +275,9 @@
         	return confirm(angular.merge({
         		okLabel: 'OK',
         		title: '',
+        		focusOnOpen: false,
         		class: (options.class || '') + ' fs-modal-prompt',
-        		content: '<md-input-container class="md-block"><label>{{dialog.options.label}}</label><input type="text" ng-model="value"><div class="hint">{{dialog.options.hint}}</div></md-input-container>',
+        		content: '<md-input-container class="md-block"><label>{{dialog.options.label}}</label><input type="text ng-model="value" fs-element-focus><div class="hint">{{dialog.options.hint}}</div></md-input-container>',
         		ok: function($event, $scope) {
         			return $scope.value
         		}

@@ -5,6 +5,9 @@
     "dist/modal.js",
     "dist/modal.css"
   ],
+  "dependencies": {
+    "fs-angular-element": "^1.0.0"
+  },
   "authors": [
     "Firestitch Inc."
   ],
