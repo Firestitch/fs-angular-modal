@@ -279,7 +279,7 @@
         		title: '',
         		focusOnOpen: false,
         		class: (options.class || '') + ' fs-modal-prompt',
-        		content: '<md-input-container class="md-block"><label>{{dialog.options.label}}</label><input type="text ng-model="value" fs-element-focus><div class="hint">{{dialog.options.hint}}</div></md-input-container>',
+        		content: '<md-input-container class="md-block"><label>{{dialog.options.label}}</label><input type="text" ng-model="value" fs-element-focus><div class="hint">{{dialog.options.hint}}</div></md-input-container>',
         		ok: function($event, $scope) {
         			return $scope.value
         		}
