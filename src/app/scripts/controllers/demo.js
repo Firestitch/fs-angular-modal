@@ -63,7 +63,6 @@ angular.module('app')
             ;
     }
 
-
     $scope.prompt = function() {
 
         fsModal
@@ -71,6 +70,30 @@ angular.module('app')
         	label: 'Please enter the email addresses',
         	width: '500px',
         	hint: 'hint text'
+        })
+        .then(function(value) {
+        	debugger;
+    		//was saved
+    	},
+    	function(value){
+    		debugger;
+    		//was cancelled
+    	});
+    }
+
+    $scope.promptSelect = function() {
+
+        fsModal
+        .prompt({
+        	label: 'Please select',
+        	width: '500px',
+        	hint: 'hint text',
+        	type: 'select',
+        	values: function() {
+        		return $q(function(resolve) {
+        			resolve([{ name: 'name', value: 'value' },{ name: 'name', value: 'value' }]);
+        		});
+        	}
         })
         .then(function(value) {
         	debugger;

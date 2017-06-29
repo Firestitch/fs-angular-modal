@@ -172,9 +172,11 @@
            			template: [
 	                    '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" class="{{ dialog.options.class }}" ng-style="dialog.style">',
 	                    ' <form ng-submit="dialog.ok($event)">',
-	                    '  <md-dialog-content tabIndex="-1" class="md-dialog-content">',
-	                    '   <h2 class="md-title" ng-if="dialog.options.title">{{ dialog.options.title }}</h2>',
-	                        options.content,
+	                    '  <md-dialog-content tabIndex="-1">',
+	                    '   <div class="md-dialog-content">',
+	                    '    <h2 class="md-title" ng-if="dialog.options.title">{{ dialog.options.title }}</h2>',
+	                         options.content,
+	                    '   </div>',
 	                    '  </md-dialog-content>',
 	                    '  <md-dialog-actions>',
 	                    '   <md-button ng-click="dialog.cancel($event)">{{dialog.cancelLabel}}</md-button>',
@@ -250,11 +252,12 @@
                     },
                     onShowing: function($scope,container) {
                         angular.element(container).addClass('fs-modal-confirm-container');
-                    }
+                    },
+                    resolve: options.resolve
                 };
 
 	            $mdDialog.show(confirm).finally(function(result) {
-	                modals--;
+	            	modals--;
 	                return result;
 	            });
             });
@@ -272,15 +275,27 @@
          */
         function prompt(options) {
 
+        	options.type = options.type || 'input';
+        	options.resolve = options.resolve || {};
+        	var content = '';
+
+        	if(options.type=='input') {
+        		content = '<md-input-container class="md-block"><label>{{dialog.options.label}}</label><input type="text" ng-model="value" fs-element-focus><div class="hint">{{dialog.options.hint}}</div></md-input-container>';
+        	} else if(options.type=='select') {
+        		content = '<md-input-container class="md-block">\<label>{{dialog.options.label}}</label><md-select ng-model="value"><md-option ng-repeat="item in dialog.values" ng-value="item.value">{{item.name}}</md-option></md-select><div class="hint">{{dialog.options.hint}}</div></md-input-container>';
+        		options.resolve.values = options.values;
+        	}
+
         	return confirm(angular.merge({
         		okLabel: 'OK',
         		title: '',
         		focusOnOpen: false,
         		class: (options.class || '') + ' fs-modal-prompt',
-        		content: '<md-input-container class="md-block"><label>{{dialog.options.label}}</label><input type="text" ng-model="value" fs-element-focus><div class="hint">{{dialog.options.hint}}</div></md-input-container>',
+        		content: content,
         		ok: function($event, $scope) {
         			return $scope.value
-        		}
+        		},
+        		resolve: options.resolve
         	},options));
 
 
