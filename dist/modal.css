@@ -1,3 +1,7 @@
 md-dialog.fs-modal-prompt .md-dialog-content {
     padding-bottom: 0;
 }
+
+md-dialog.fs-modal-confirm h2.md-title {
+	margin-top: 0;
+}
