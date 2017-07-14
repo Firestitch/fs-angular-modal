@@ -1,5 +1,4 @@
-//import the various style folders in order of specificity,
-//from global down to individual pages or sections
+@import "../../bower_components/fs-boilerplate-styles/dist/material-1.1.1.scss";
 @import "globals/vendors";
 @import "globals/icons";
 @import "globals/variables";

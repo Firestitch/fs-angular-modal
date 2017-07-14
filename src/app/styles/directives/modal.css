@@ -5,3 +5,21 @@ md-dialog.fs-modal-prompt .md-dialog-content {
 md-dialog.fs-modal-confirm h2.md-title {
 	margin-top: 0;
 }
+
+md-dialog.fs-modal-confirm h2.md-title {
+	margin-top: 0;
+}
+
+@media screen and (max-width: 450px) {
+    md-dialog {
+	    top: 0;
+	    position: absolute;
+	    left: 0;
+	    width: 100%;
+	    bottom: 0;
+	    max-width: none !important;
+	    max-height: none !important;
+	    border-radius: initial;
+    }
+
+}

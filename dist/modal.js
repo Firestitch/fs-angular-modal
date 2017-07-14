@@ -23,21 +23,21 @@
 		var oldcancel = $mdDialog.cancel;
 
         $mdDialog.cancel = function (reason, options) {
-        	if(modalOptions.confirm && modalOptions.container.find('form').hasClass('ng-dirty')){
+        	if(modalOptions.confirm && modalOptions.container.find('form').hasClass('ng-dirty')) {
 		        service.confirm(
 		            {
 		                content: modalOptions.confirm.message ? modalOptions.confirm.message : "You have unsaved changes.",
 		                okLabel: modalOptions.confirm.okLabel ? modalOptions.confirm.okLabel : "THAT'S OK, CONTINUE",
 		                cancelLabel: modalOptions.confirm.cancelLabel ? modalOptions.confirm.cancelLabel : "TAKE ME BACK",
 		                ok: function() {
-		                  $timeout(function(){ oldcancel(reason, options); });
+		                	$timeout(function(){ oldcancel(reason, options); });
 		                },
 		                cancel: function() {
 		                }
-		            }
-		        );
+		            });
 			    return false;
         	}
+
         	return oldcancel(reason, options);
     	  }
 
