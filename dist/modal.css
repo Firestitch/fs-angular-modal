@@ -10,7 +10,7 @@ md-dialog.fs-modal-confirm h2.md-title {
 	margin-top: 0;
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 599px) {
     md-dialog {
 	    top: 0;
 	    position: absolute;
