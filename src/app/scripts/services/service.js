@@ -245,7 +245,7 @@
                     options: options,
                     ariaLabel: 'Confirm',
                     focusOnOpen: options.focusOnOpen,
-                    skipHide: true,
+                    multiple: true,
                     locals: {
                         okLabel: options.okLabel || 'Yes',
                         cancelLabel: options.cancelLabel || 'Cancel'
