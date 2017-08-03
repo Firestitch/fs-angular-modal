@@ -17,8 +17,8 @@ md-dialog.fs-modal-confirm h2.md-title {
 	    left: 0;
 	    width: 100%;
 	    bottom: 0;
-	    max-width: none !important;
-	    max-height: none !important;
+	    max-width: 100%;
+	    max-height: none;
 	    border-radius: initial;
     }
 
