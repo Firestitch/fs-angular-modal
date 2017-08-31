@@ -81,6 +81,29 @@ angular.module('app')
     	});
     }
 
+    $scope.promptAutocomplete = function() {
+
+        fsModal
+        .prompt({
+        	label: 'Please autocomplete',
+        	width: '500px',
+        	type: 'autocomplete',
+        	values: function() {
+        		return $q(function(resolve) {
+        			resolve([{ name: 'name', value: 'value' },{ name: 'name', value: 'value' }]);
+        		});
+        	}
+        })
+        .then(function(value) {
+        	debugger;
+    		//was saved
+    	},
+    	function(value){
+    		debugger;
+    		//was cancelled
+    	});
+    }
+
     $scope.promptSelect = function() {
 
         fsModal

@@ -1,5 +1,7 @@
 
 
+
+
 (function () {
     'use strict';
 
@@ -189,6 +191,8 @@
 	                    ].join(''),
                     controller: ['$scope',function($scope) {
 
+                    	angular.extend(this,options.controller);
+
                     	this.style = { maxWidth: '100%' };
                     	if(options.width)
                     		this.style.width = options.width;
@@ -286,8 +290,28 @@
         	} else if(options.type=='select') {
         		content = '<md-input-container class="md-block">\<label>{{dialog.options.label}}</label><md-select ng-model="value"><md-option ng-repeat="item in dialog.values" ng-value="item.value">{{item.name}}</md-option></md-select><div class="hint">{{dialog.options.hint}}</div></md-input-container>';
         		options.resolve.values = options.values;
+        	} else if(options.type=='autocomplete') {
+        		content = '<md-autocomplete-container>\
+					        <md-autocomplete\
+					                md-no-cache="true"\
+					                md-selected-item="dialog.autocomplete.item"\
+					                md-search-text="dialog.autocomplete.search"\
+					                md-items="item in dialog.autocompleteQuery(dialog.autocomplete.search)"\
+					                md-item-text="item.name"\
+					                md-selected-item-change="dialog.autocompleteChange(dialog.autocomplete.item)"\
+					                md-min-length="0"\
+					                md-delay="300"\
+					                md-autoselect\
+					                md-floating-label="{{dialog.options.label}}">\
+					                <md-item-template>\
+					                	<span md-highlight-text="search" md-highlight-flags="^i">{{item.name}}</span>\
+					                </md-item-template>\
+					                <md-not-found>No matches found</md-not-found>\
+					        </md-autocomplete>\
+					      </md-autocomplete-container>'
         	}
 
+        	var value = undefined;
         	return confirm(angular.merge({
         		okLabel: 'OK',
         		title: '',
@@ -295,8 +319,16 @@
         		class: (options.class || '') + ' fs-modal-prompt',
         		content: content,
         		ok: function($event, $scope) {
-        			return $scope.value
+        			return value
         		},
+        		controller: {
+        			autocompleteChange: function(item) {
+	        			value = item;
+	        		},
+	        		autocompleteQuery: function(search) {
+	        			return options.values(search);
+	        		}
+	        	},
         		resolve: options.resolve
         	},options));
 
@@ -304,16 +336,3 @@
         }
     });
 })();
-angular.module('fs-angular-modal').run(['$templateCache', function($templateCache) {
-  'use strict';
-
-  $templateCache.put('views/directives/alerts.html',
-    "<alert ng-repeat=\"alert in alerts\" type=\"{{alert.type}}\" close=\"alert.close()\">{{ alert.msg }}</alert>"
-  );
-
-
-  $templateCache.put('views/directives/directive.html',
-    ""
-  );
-
-}]);
