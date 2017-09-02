@@ -283,6 +283,7 @@
 
         	options.type = options.type || 'input';
         	options.resolve = options.resolve || {};
+        	options.template = options.template ? options.template : '<span md-highlight-text="search" md-highlight-flags="^i">{{item.name}}</span>';
         	var content = '';
 
         	if(options.type=='input') {
@@ -303,9 +304,7 @@
 					                md-delay="300"\
 					                md-autoselect\
 					                md-floating-label="{{dialog.options.label}}">\
-					                <md-item-template>\
-					                	<span md-highlight-text="search" md-highlight-flags="^i">{{item.name}}</span>\
-					                </md-item-template>\
+					                <md-item-template>' + options.template + '</md-item-template>\
 					                <md-not-found>No matches found</md-not-found>\
 					        </md-autocomplete>\
 					      </md-autocomplete-container>'
